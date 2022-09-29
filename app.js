@@ -11,7 +11,8 @@ const fs = require('fs');
 let code = ""
 let desc = ""
 let validFor = ""
-let email = "allah+8@testing.no"
+let content = ""
+//let email = "alibaba"+i+"@testing.no"
 const url ="https://www.jackery.com/";
 
 //------------- Delay Function----------------//
@@ -34,10 +35,10 @@ async function run()
     // Input email and click gift button
 
     await page.waitForSelector('input[id="subscribeEmail"]');
-    await page.type('input[id="subscribeEmail"]', email);
+    await page.type('input[id="subscribeEmail"]', "newmailier"+i+"@gmail.com");
     await page.click('img[class="J-gift"]');
 
-    await delay(4000);
+    await delay(5000);
 
     // Identyfy text elements
 
@@ -56,16 +57,36 @@ async function run()
     validFor = await (await validForText.getProperty('textContent')).jsonValue();
 
     // Print variables for testing purposes
-
+    console.log("Var test")
     console.log("Code: " + code);
     console.log("Description: " + desc);
     console.log("Valid For: " + validFor);
 
     // Take screenshot to verify variable values
 
-    await page.screenshot({path: 'example.png'});
+    await page.screenshot({path: 'example'+i+'.png'});
+
+    // close browser
 
     await browser.close();
 }
 
-run();
+//--------------- Main -----------------//
+
+async function main() 
+{
+    for (i = 0; i < 10; i++) 
+    {
+        await run();
+
+        content = "----------------"+"\n"+"Image: example"+i+".png"+"\n"+"Code: " + code + "\n" + "Description: " + desc + "\n" + "Valid For: " + validFor + "\n";
+
+        fs.appendFile('output.txt', content, err => {
+            if (err) {
+            console.error(err);
+            }
+        });
+    }
+}
+
+main();
