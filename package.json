@@ -1,5 +1,26 @@
 {
+  "scripts": {
+    "start": "electron ."
+  },
   "dependencies": {
     "puppeteer": "^18.0.5"
-  }
+  },
+  "devDependencies": {
+    "electron": "^21.0.1"
+  },
+  "name": "jackerydiscountretriver",
+  "description": "",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kireobat/jackeryDiscountRetriver.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kireobat/jackeryDiscountRetriver/issues"
+  },
+  "homepage": "https://github.com/Kireobat/jackeryDiscountRetriver#readme"
 }

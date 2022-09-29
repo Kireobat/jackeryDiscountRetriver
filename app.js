@@ -1,92 +1,45 @@
-const emailBox = '<input type="email" id="subscribeEmail" class="input-full J-email" name="subscribeEmail" autocorrect="off" autocapitalize="none" placeholder="Email">'
+// main.js
 
+// Modules to control application life and create native browser window
+const { app, BrowserWindow } = require('electron')
+const path = require('path')
 
-//--------------- Imports -----------------//
-
-const puppeteer = require('puppeteer');
-const fs = require('fs');
-
-//--------------- Variables -----------------//
-
-let code = ""
-let desc = ""
-let validFor = ""
-let content = ""
-//let email = "alibaba"+i+"@testing.no"
-const url ="https://www.jackery.com/";
-
-//------------- Delay Function----------------//
-
-function delay(time) {
-    return new Promise(function(resolve) { 
-        setTimeout(resolve, time)
-        console.log("waiting for " + time + "ms");
-    });
-}
-
-//--------------- Main -----------------//
-
-async function run() 
-{
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(url);
-
-    // Input email and click gift button
-
-    await page.waitForSelector('input[id="subscribeEmail"]');
-    await page.type('input[id="subscribeEmail"]', "newmailier"+i+"@gmail.com");
-    await page.click('img[class="J-gift"]');
-
-    await delay(5000);
-
-    // Identyfy text elements
-
-    const codeText = await page.$("[class='J-code-text']");
-
-    const descText = await page.$("[class='percentage-wrap']");
-
-    const validForText = await page.$("[class='time-wrap J-date-text']");
-
-    // Save text elements to variables
-
-    code = await (await codeText.getProperty('textContent')).jsonValue();
-
-    desc = await (await descText.getProperty('textContent')).jsonValue();
-
-    validFor = await (await validForText.getProperty('textContent')).jsonValue();
-
-    // Print variables for testing purposes
-    console.log("Var test")
-    console.log("Code: " + code);
-    console.log("Description: " + desc);
-    console.log("Valid For: " + validFor);
-
-    // Take screenshot to verify variable values
-
-    await page.screenshot({path: 'example'+i+'.png'});
-
-    // close browser
-
-    await browser.close();
-}
-
-//--------------- Main -----------------//
-
-async function main() 
-{
-    for (i = 0; i < 10; i++) 
-    {
-        await run();
-
-        content = "----------------"+"\n"+"Image: example"+i+".png"+"\n"+"Code: " + code + "\n" + "Description: " + desc + "\n" + "Valid For: " + validFor + "\n";
-
-        fs.appendFile('output.txt', content, err => {
-            if (err) {
-            console.error(err);
-            }
-        });
+const createWindow = () => {
+  // Create the browser window.
+  const mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
     }
+  })
+
+  // and load the index.html of the app.
+  mainWindow.loadFile('index.html')
+
+  // Open the DevTools.
+  // mainWindow.webContents.openDevTools()
 }
 
-main();
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.whenReady().then(() => {
+  createWindow()
+
+  app.on('activate', () => {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+})
+
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit()
+})
+
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and require them here.
