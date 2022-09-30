@@ -79,6 +79,7 @@ async function run()
 
 async function main() 
 {
+    document.getElementById("status").innerHTML = "Running";
     for (i = 0; i < 10; i++) 
     {
         await run();
@@ -98,6 +99,7 @@ async function main()
 //--------------- Stop function -----------------//
 
 function stop(){
+    document.getElementById("status").innerHTML = "Stopped";
     process.exit(0);
 }
 

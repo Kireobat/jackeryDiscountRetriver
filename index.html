@@ -5,13 +5,18 @@
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <script type="text/javascript" src="retriver.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title>Hello World!</title>
   </head>
   <body>
     <h1>Jackery Discount Retriver</h1>
     <p>Codes will be availiable in "output.txt"</p>
-
-    <button id="start" onclick="main()">Start</button>
-    <button id="stop" onclick="stop()">Stop</button>
+    <div class="buttonDiv">
+      <button class="button1"id="start" onclick="main()">Start</button>
+      <button class="button2"id="stop" onclick="stop()">Stop</button>
+    </div>
+    <div>
+      <p>Status:</p><p id="status">Idle</p></p>
+    </div>
   </body>
 </html>
