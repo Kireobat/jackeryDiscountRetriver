@@ -6,6 +6,7 @@
     - 5%
     - 8%
     - 10%
+    - 12%
     - and more but I haven't seen higher yet
 
 ## How To Use
